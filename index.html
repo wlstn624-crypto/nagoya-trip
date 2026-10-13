@@ -32,6 +32,12 @@ summary::-webkit-details-marker{display:none}summary::after{content:'＋';color:
 #toast{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:700;background:#1F1A24e6;color:#fff;font-size:14px;padding:10px 14px;border-radius:12px;display:none;max-width:80%;text-align:center}
 .me{width:16px;height:16px;border-radius:50%;background:#2F7BF6;border:3px solid #fff;box-shadow:0 0 0 0 #2F7BF688;animation:mp 2s infinite}
 @keyframes mp{0%{box-shadow:0 0 0 0 #2F7BF688}70%{box-shadow:0 0 0 14px #2F7BF600}100%{box-shadow:0 0 0 0 #2F7BF600}}
+.jrow{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.pills{display:flex;gap:6px;flex:0 0 auto}
+.pl{display:inline-flex;align-items:center;height:32px;padding:0 12px;border-radius:99px;background:#1F1A24;color:#fff;font-size:13.5px;font-weight:700;text-decoration:none;white-space:nowrap}
+.pl.w{width:32px;padding:0;justify-content:center;background:#F3EDEA;color:#1F1A24;font-size:15px}
+.jrow .ja{min-width:0}
+.ds{border-top:1px solid #F0E8E4;padding-top:14px;margin-top:14px}.ds:first-of-type{margin-top:18px}.dl{font-size:13.5px;font-weight:700;color:#7A6F80;letter-spacing:.2px;margin-bottom:8px}.card{padding-bottom:18px}
 #bar{position:sticky;top:var(--navh,62px);z-index:1050;background:var(--bg)}
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
@@ -143,10 +149,9 @@ function go(k){const d=D.days[day],s=d.steps[k];$('rg').value=k;$('rg').style.se
  const q=x=>decodeURIComponent((x.g.split('query=')[1]||x.ja));
  const one=l=>l.line==='도보'?`🚶 도보 ${l.walk}분 · ${l.to}`:`<i class="dot" style="background:${l.color}"></i>${l.line.split(' ').slice(-1)[0]} · ${l.frm.split(' ').slice(-1)[0]} → ${l.to.split(' ').slice(-1)[0]}${l.stops&&typeof l.stops==='number'?` · ${l.stops}정거장`:''}`;
  const base=`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(q(s))}`;
- let h=`<article class="card"><div class="tm">${s.t}<span class="no">${k+1} / ${d.steps.length}</span></div><h2 class="nm">${s.ko}</h2><a class="ja" href="${s.g}" target="_blank">📍 ${s.ja}</a>`;
+ let h=`<article class="card"><div class="tm">${s.t}<span class="no">${k+1} / ${d.steps.length}</span></div><h2 class="nm">${s.ko}</h2><div class="jrow"><a class="ja" href="${s.g}" target="_blank">📍 ${s.ja}</a><span class="pills"><a class="pl" href="${base}&travelmode=transit" target="_blank">🧭 길찾기</a><a class="pl w" href="${base}&travelmode=walking" target="_blank" aria-label="도보 길찾기">🚶</a></span></div>`;
  if(s.legs.length)h+=`<div class="how">${s.legs.map(l=>`<div class="hl">${one(l)}</div>`).join('')}</div>`;
- h+=`<a class="dir" href="${base}&travelmode=transit" target="_blank">🧭 여기까지 길찾기</a><a class="wl" href="${base}&travelmode=walking" target="_blank">도보로 길찾기</a>`;
- const det=(t,body,open)=>`<details${open?' open':''}><summary>${t}</summary><div class="db">${body}</div></details>`;
+ const det=(t,body)=>`<section class="ds"><div class="dl">${t}</div><div class="db">${body}</div></section>`;
  if(s.legs.some(l=>l.line!=='도보'||l.extra))h+=det('🚇 자세한 가는 방법',s.legs.map(legHTML).join(''));
  if(s.note)h+=det('📝 메모',`<div class="nt">${fmt(s.note)}</div>`,s.note.length<40);
  if(s.menu.length)h+=det(`🍽 메뉴 · 가격 (${s.menu.length})`,s.menu.map(m=>`<div class="mi"><div><div class="mk">${m[1]}</div><div class="mj">${m[0]}</div>${m[3]?`<div class="mw ${m[3].includes('⚠')?'x':''}">${m[3]}</div>`:''}</div><div class="mp">${yen(m[2])}</div></div>`).join(''));
