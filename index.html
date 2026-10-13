@@ -1,6 +1,33 @@
 <!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#FFF6F1"><title>굥딘수 태교여행 with 나랑이</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?display=swap"><style>@font-face{font-family:GmarketSans;font-weight:700;src:url(https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff) format("woff")}#bar{position:sticky;top:var(--navh,62px);z-index:1050;background:var(--bg)}
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?display=swap"><style>@font-face{font-family:GmarketSans;font-weight:700;src:url(https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff) format("woff")}
+:root{--sub:#5E5563;--ink:#1F1A24}
+body{font-size:16px;line-height:1.6}
+#detail{padding:14px 16px 110px}
+.card{background:#fff;border-radius:22px;padding:22px 20px 10px;box-shadow:0 4px 18px #2b23300d}
+.card .tm{font-size:15px;font-weight:800;color:#E5604E;display:flex;justify-content:space-between;align-items:center}
+.card .no{font-size:13px;font-weight:600;color:var(--sub)}
+.card .nm{font-size:23px;font-weight:800;line-height:1.35;margin:4px 0 6px;letter-spacing:-.5px;color:var(--ink)}
+.card .ja{display:inline-block;font-size:14.5px;color:#4A4150;text-decoration:none;border-bottom:1px solid #d9cfd4}
+.how{margin:18px 0 0;display:flex;flex-direction:column;gap:6px}
+.hl{font-size:16.5px;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:8px}
+.hl .dot{display:inline-block;width:11px;height:11px;border-radius:50%;flex:0 0 auto}
+.card .dir{margin-top:18px;font-size:16px;padding:15px;border-radius:16px}
+.card .wl{font-size:14px;color:var(--sub);margin:10px 0 6px}
+details{border-top:1px solid #F0E8E4;margin:0 -4px}details:first-of-type{margin-top:10px}
+summary{list-style:none;cursor:pointer;padding:15px 4px;font-size:16px;font-weight:700;color:var(--ink);display:flex;justify-content:space-between}
+summary::-webkit-details-marker{display:none}summary::after{content:'＋';color:var(--sub);font-weight:500}details[open] summary::after{content:'－'}
+.db{padding:0 4px 16px;font-size:15.5px}
+.db .leg{background:none;padding:0 0 12px;margin:0;border-bottom:1px dashed #EEE5E1;margin-bottom:12px}.db .leg:last-child{border:0;margin:0}
+.db .lh{font-size:16px}.db .route{font-size:15.5px}.db .chip{font-size:14px;background:#F6F1EF;color:#3D3542;padding:5px 10px}
+.db .ex,.db .walk{font-size:14.5px;color:#4A4150}
+.nt .ln{padding:5px 0;font-size:15.5px;color:#2F2834}.nt .ln+.ln{border-top:1px solid #F3ECE8}
+.db .mi{padding:12px 0;border-bottom:1px solid #F3ECE8}.db .mk{font-size:16px}.db .mj,.db .mw{font-size:13.5px;color:#5E5563}.db .mp{font-size:16px}
+.db .cr{font-size:15.5px;padding:5px 0}
+#prog{font-size:13px;color:var(--sub)}
+#info{font-size:15.5px}#info .note{font-size:15.5px;color:#2F2834;background:none;padding:0}#info .ln{padding:5px 0}#info .ln.sub{font-size:14.5px;color:#4A4150}#info .ex{font-size:14px;color:var(--sub)}#info .cr{font-size:15.5px}#info h3{font-size:18px}.chk{font-size:15.5px}
+.hint{display:none}
+#bar{position:sticky;top:var(--navh,62px);z-index:1050;background:var(--bg)}
 </style>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -63,7 +90,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;heigh
 #fix{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:1200;background:linear-gradient(135deg,var(--peach),#FF6F91);color:#fff;font-weight:800;font-size:14px;border-radius:99px;padding:12px 18px;text-decoration:none;box-shadow:0 8px 22px #ff6f9155}
 #info{display:none;padding:4px 16px 100px}
 #info .sc{margin-bottom:12px}#info h3{margin:0 0 10px;font-size:16px}
-.chk{display:flex;gap:10px;align-items:flex-start;padding:7px 0;font-size:14px;border-bottom:1px solid var(--line)}.chk:last-child{border:0}.chk input{accent-color:var(--peach);width:18px;height:18px;margin-top:1px}
+.chk{display:flex;gap:10px;align-items:flex-start;padding:7px 0;font-size:14px;border-bottom:1px solid var(--line)}.chk:last-child{border:0}.chk input{flex:0 0 auto;accent-color:var(--peach);width:20px;height:20px;margin-top:1px}
 .pin{width:26px;height:26px;border-radius:50%;background:#fff;color:var(--ink);border:2px solid #fff;box-shadow:0 2px 8px #2b233033;font:800 11.5px Pretendard,sans-serif;display:flex;align-items:center;justify-content:center;transition:transform .25s}
 .pin.on{background:var(--peach);color:#fff;transform:scale(1.5);box-shadow:0 0 0 6px #ff8b7b40,0 4px 12px #ff8b7b88}
 .leaflet-tooltip{font-family:Pretendard,sans-serif;border:0;border-radius:12px;box-shadow:0 4px 14px #0002;padding:6px 9px;font-weight:700;font-size:12px}.leaflet-tooltip small{font-weight:500;color:var(--sub)}
@@ -109,16 +136,17 @@ function go(k){const d=D.days[day],s=d.steps[k];$('rg').value=k;$('rg').style.se
  if(p&&p.ll.join()!==s.ll.join()){const col=(s.legs.find(l=>l.line!=='도보')||{color:'#FF8B7B'}).color;hl=L.polyline([p.ll,s.ll],{color:col,weight:7,opacity:.95,lineCap:'round'}).addTo(layer);map.invalidateSize();map.flyToBounds(hl.getBounds(),{paddingTopLeft:[56,110],paddingBottomRight:[56,40],maxZoom:16,duration:.6})}
  else map.flyTo(s.ll,15,{duration:.6});
  const q=x=>decodeURIComponent((x.g.split('query=')[1]||x.ja));
- let h=`<div class="sc"><div class="top"><div class="badge">${k+1}</div><div style="flex:1"><div class="tm">${s.t}</div><div class="nm">${s.ko}</div><div class="ja"><a href="${s.g}" target="_blank">📍 ${s.ja}</a></div></div></div>`;
- {h+=`<div class="sec">${s.legs.length?`<div class="lbl">가는 방법</div>${s.legs.map(legHTML).join('')}`:''}`;
-  {const base=`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(q(s))}`;
-   h+=`<a class="dir" href="${base}&travelmode=transit" target="_blank">🧭 여기까지 길찾기 (현재 위치에서)</a><a class="wl" href="${base}&travelmode=walking" target="_blank">🚶 도보 길찾기 (현재 위치에서)</a>`}
-  h+=`</div>`}
- if(s.note)h+=`<div class="sec"><div class="note">${fmt(s.note)}</div></div>`;
- if(s.menu.length)h+=`<div class="sec"><div class="lbl">추천 메뉴 · 임산부 체크</div><div class="menu">${s.menu.map(m=>`<div class="mi"><div><div class="mk">${m[1]}</div><div class="mj">${m[0]}</div>${m[3]?`<div class="mw ${m[3].includes('⚠')?'x':''}">${m[3]}</div>`:''}</div><div class="mp">${yen(m[2])}</div></div>`).join('')}</div></div>`;
- h+=`</div>`;
- if(k===d.steps.length-1){const t=d.cost.reduce((a,c)=>a+c[1],0);h+=`<div class="cost"><div class="lbl">오늘 예상 비용 · 2인 · 쇼핑 제외</div>${d.cost.map(c=>`<div class="cr"><span>${c[0]}</span><span>¥${c[1].toLocaleString()}</span></div>`).join('')}<div class="cr t"><span>합계</span><span>¥${t.toLocaleString()} · 약 ${won(t).toLocaleString()}원</span></div></div>`}
- else h+=`<div class="hint">슬라이더를 밀어 다음 일정 보기 → · 택시는 힘들 때만 (GO 앱)</div>`;
+ const one=l=>l.line==='도보'?`🚶 도보 ${l.walk}분 · ${l.to}`:`<i class="dot" style="background:${l.color}"></i>${l.line.split(' ').slice(-1)[0]} · ${l.frm.split(' ').slice(-1)[0]} → ${l.to.split(' ').slice(-1)[0]}${l.stops&&typeof l.stops==='number'?` · ${l.stops}정거장`:''}`;
+ const base=`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(q(s))}`;
+ let h=`<article class="card"><div class="tm">${s.t}<span class="no">${k+1} / ${d.steps.length}</span></div><h2 class="nm">${s.ko}</h2><a class="ja" href="${s.g}" target="_blank">📍 ${s.ja}</a>`;
+ if(s.legs.length)h+=`<div class="how">${s.legs.map(l=>`<div class="hl">${one(l)}</div>`).join('')}</div>`;
+ h+=`<a class="dir" href="${base}&travelmode=transit" target="_blank">🧭 여기까지 길찾기</a><a class="wl" href="${base}&travelmode=walking" target="_blank">도보로 길찾기</a>`;
+ const det=(t,body,open)=>`<details${open?' open':''}><summary>${t}</summary><div class="db">${body}</div></details>`;
+ if(s.legs.some(l=>l.line!=='도보'||l.extra))h+=det('🚇 자세한 가는 방법',s.legs.map(legHTML).join(''));
+ if(s.note)h+=det('📝 메모',`<div class="nt">${fmt(s.note)}</div>`,s.note.length<40);
+ if(s.menu.length)h+=det(`🍽 메뉴 · 가격 (${s.menu.length})`,s.menu.map(m=>`<div class="mi"><div><div class="mk">${m[1]}</div><div class="mj">${m[0]}</div>${m[3]?`<div class="mw ${m[3].includes('⚠')?'x':''}">${m[3]}</div>`:''}</div><div class="mp">${yen(m[2])}</div></div>`).join(''));
+ if(k===d.steps.length-1){const t=d.cost.reduce((a,c)=>a+c[1],0);h+=det(`💴 오늘 비용 · ¥${t.toLocaleString()}`,d.cost.map(c=>`<div class="cr"><span>${c[0]}</span><span>¥${c[1].toLocaleString()}</span></div>`).join('')+`<div class="cr t"><span>합계 (2인)</span><span>약 ${won(t).toLocaleString()}원</span></div>`)}
+ h+=`</article>`;
  $('detail').innerHTML=h;$('detail').scrollTop=0;setFix(d.tab,`${k+1}. ${s.t} ${s.ko}`)}
 $('rg').oninput=e=>go(+e.target.value);$('pv').onclick=()=>go(Math.max(0,+$('rg').value-1));$('nx').onclick=()=>go(Math.min(+$('rg').max,+$('rg').value+1));
 const all=D.days.reduce((a,d)=>a+d.cost.reduce((x,c)=>x+c[1],0),0),bt=D.baby.reduce((a,b)=>a+b[1],0);
