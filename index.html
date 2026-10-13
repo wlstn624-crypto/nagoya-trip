@@ -22,7 +22,7 @@ input[type=range]{flex:1;accent-color:var(--ac)}
 .note{font-size:13px;color:#5a4d55;background:#fbf3ef;border-radius:8px;padding:6px 9px;margin:6px 0}
 table{width:100%;border-collapse:collapse;font-size:13.5px;background:#fff;border-radius:10px}td{padding:5px 6px;border-bottom:1px solid #f3e7e2;vertical-align:top}td.p{text-align:right;white-space:nowrap;font-weight:700}
 .jp{font-size:11px;color:var(--sub)}.warn{color:#c0392b;font-size:12px}
-a.g{display:inline-block;margin-top:6px;font-size:13px;color:#2f6fb5}
+a.dir{display:block;text-align:center;background:#2f6fb5;color:#fff;font-weight:800;border-radius:12px;padding:10px;margin:8px 0 4px;text-decoration:none;font-size:14.5px}a.g{display:inline-block;margin-top:6px;font-size:13px;color:#2f6fb5}
 .num{background:#fff;color:var(--ac);border:2px solid var(--ac);border-radius:50%;width:22px;height:22px;line-height:18px;text-align:center;font-weight:800;font-size:11px}
 .num.on{background:var(--ac);color:#fff;transform:scale(1.35);box-shadow:0 0 0 4px #e8786e55}
 #info{display:none;flex:1;overflow-y:auto;padding:12px}.card{background:#fff;border-radius:14px;padding:12px 14px;margin:10px 0;box-shadow:0 2px 10px #0000000d}
@@ -54,6 +54,8 @@ function go(k){const d=D.days[day],s=d.steps[k];$('rg').value=k;
  let h=`<a class="g" style="float:right;margin:0" href="${s.g}" target="_blank">📍 구글맵에서 보기</a><div class="h"><span class="t">${k+1}. ${s.t}</span><span class="ttl">${s.ko}</span></div><div class="ja">${s.ja}</div>`;
  s.legs.forEach(l=>{h+=l.line==='도보'?`<div class="leg" style="border-color:#bbb">🚶 <b>도보 ${l.walk}분</b> · ${l.frm} → ${l.to}${l.extra?`<div class="jp">${l.extra}</div>`:''}</div>`:
  `<div class="leg" style="border-color:${l.color}"><div class="ln" style="color:${l.color}">🚇 ${l.line}</div><div class="kv"><span>승차</span><span>${l.frm}</span><span>방향</span><span>${l.dir}</span><span>정거장</span><span>${typeof l.stops==='number'?l.stops+'개 역':l.stops}</span><span>하차</span><span>${l.to}</span><span>출구</span><span>${l.exit}</span><span>도보</span><span>${l.walk}분</span><span>요금</span><span>${l.fare?`1인 ¥${l.fare.toLocaleString()} · 2인 ¥${(l.fare*2).toLocaleString()}`:'(앞 구간 요금에 포함)'}</span></div>${l.extra?`<div class="jp">${l.extra}</div>`:''}</div>`});
+ if(k>0){const p=d.steps[k-1];if(p.ll.join()!==s.ll.join()){const q=x=>decodeURIComponent(x.g.split('query=')[1]||x.ja);const base=`https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(q(p))}&destination=${encodeURIComponent(q(s))}`;
+ h+=`<a class="dir" href="${base}&travelmode=transit" target="_blank">🧭 구글맵 길찾기 (이전 장소→여기)</a><div class="jp" style="text-align:center;margin:-2px 0 6px"><a href="${base}&travelmode=walking" target="_blank">🚶 도보 길찾기</a> · ${p.ko} → ${s.ko}</div>`}}
  if(s.note)h+=`<div class="note">${s.note}</div>`;
  if(s.menu.length)h+=`<table>${s.menu.map(m=>`<tr><td>${m[1]}<div class="jp">${m[0]}</div>${m[3]?`<div class="${m[3].includes('⚠')?'warn':'jp'}">${m[3]}</div>`:''}</td><td class="p">${yen(m[2])}</td></tr>`).join('')}</table>`;
  h+=`<a class="g" href="${s.g}" target="_blank">📍 구글맵에서 보기</a>`;
