@@ -86,7 +86,7 @@ let layer=L.layerGroup().addTo(map),day=0,mk=[],hl=null;
 D.days.forEach((d,i)=>{const b=document.createElement('button');const [a,c]=d.tab.split(' ');b.innerHTML=`<b>${a}</b>${c||''}`;b.onclick=()=>setDay(i);$('nav').appendChild(b)});
 {const b=document.createElement('button');b.innerHTML='<b>💰 예산</b>준비물';b.onclick=()=>setDay(-1);$('nav').appendChild(b)}
 function setFix(dt,st){const sub=`[나고야 가이드 수정 요청] ${dt} ${st}`.trim();const body=`요청자 이름: \n\n수정할 일정: ${dt}${st?' / '+st:''}\n\n요청 내용:\n- \n\n(예: 시간 변경, 장소 추가/삭제, 메뉴·가격 정정 등)\n`;
- $('fix').href='mailto:sim_groggy+trip@mail.grokbot.com?subject='+encodeURIComponent(sub)+'&body='+encodeURIComponent(body)}
+ $('fix').href='sms:sim_groggy+trip@mail.grokbot.com&body='+encodeURIComponent('[나고야 수정요청] '+sub+'\n')}
 function setDay(i){day=i;{const w=i>=0&&D.wx[i];if(w){const m=w.match(/^(\S+)\s+\S+\s+(\S+)/);$('wx').innerHTML=`<b>${m[1]}</b>${m[2]}`}else $('wx').textContent=''}[...$('nav').children].forEach((b,j)=>b.classList.toggle('on',j===(i<0?D.days.length:i)));
  const inf=i<0;$('info').style.display=inf?'block':'none';['mapwrap','bar','detail'].forEach(x=>$(x).style.display=inf?'none':'');
  if(inf){setFix('예산·준비물','');return}
