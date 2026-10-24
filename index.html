@@ -128,7 +128,8 @@ D.days.forEach((d,i)=>{const b=document.createElement('button');const [a,c]=d.ta
 {const b=document.createElement('button');b.innerHTML='<b>💰</b>준비';b.onclick=()=>setDay(-1);$('nav').appendChild(b)}
 function setFix(dt,st){const sub=`[나고야 가이드 수정 요청] ${dt} ${st}`.trim();const body=`요청자 이름: \n\n수정할 일정: ${dt}${st?' / '+st:''}\n\n요청 내용:\n- \n\n(예: 시간 변경, 장소 추가/삭제, 메뉴·가격 정정 등)\n`;
  $('fix').href='mailto:sim_groggy+trip@mail.grokbot.com?subject='+encodeURIComponent('[나고야 수정요청] '+sub)+'&body='+encodeURIComponent('\n')}
-function setDay(i){day=i;{const w=i>=0&&D.wx[i];if(w){const m=w.match(/^(\S+)\s+\S+\s+(\S+)/);$('wx').innerHTML=`<b>${m[1]}</b>${m[2]}`}else $('wx').textContent=''}[...$('nav').children].forEach((b,j)=>b.classList.toggle('on',j===(i<0?D.days.length:i)));
+let liveWx=false;
+function setDay(i){day=i;if(!liveWx){const w=i>=0&&D.wx[i];if(w){const m=w.match(/^(\S+)\s+\S+\s+(\S+)/);$('wx').innerHTML=`<b>${m[1]}</b>${m[2]}`}else $('wx').textContent=''}}[...$('nav').children].forEach((b,j)=>b.classList.toggle('on',j===(i<0?D.days.length:i)));
  const inf=i<0;$('info').style.display=inf?'block':'none';['mapwrap','bar','detail'].forEach(x=>$(x).style.display=inf?'none':'');
  if(inf){setFix('예산·준비물','');return}
  const d=D.days[i];layer.clearLayers();mk=[];
@@ -191,5 +192,13 @@ $('loc').onclick=e=>{e.stopPropagation();
   if(first){first=false;$('toast').style.display='none';map.flyTo(fix,16,{duration:.6})}},
  er=>{navigator.geolocation.clearWatch(wid);wid=null;toast(er.code===1?'위치 권한이 거부됐어요. 설정에서 허용해 주세요':'현재 위치를 찾지 못했어요')},
  {enableHighAccuracy:true,maximumAge:5000,timeout:20000})};
-setDay(0);
+function nowJP(){const f=new Intl.DateTimeFormat('en-CA',{timeZone:'Asia/Tokyo',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',hour12:false});const o={};for(const x of f.formatToParts(new Date()))if(x.type!=='literal')o[x.type]=x.value;return{y:+o.year,m:+o.month,d:+o.day,mins:+o.hour*60+(+o.minute)}}
+function pickDay(){const n=nowJP();for(let i=0;i<D.days.length;i++){const m=D.days[i].tab.match(/(\d+)\/(\d+)/);if(m&&+m[1]===n.m&&+m[2]===n.d&&n.y===2026)return i}const f=D.days[0].tab.match(/(\d+)\/(\d+)/);if(f&&(n.y<2026||(n.y===2026&&(n.m<+f[1]||(n.m===+f[1]&&n.d<+f[2])))))return 0;return D.days.length-1}
+function pickStep(i){const n=nowJP().mins,st=D.days[i].steps;let k=0;for(let j=0;j<st.length;j++){const[h,m]=st[j].t.split(':').map(Number);if(h*60+m<=n)k=j}return k}
+const WXKO={0:['☀️','맑음'],1:['🌤','대체로 맑음'],2:['⛅','구름 조금'],3:['☁️','흐림'],45:['🌫','안개'],48:['🌫','안개'],51:['🌦','이슬비'],53:['🌦','이슬비'],55:['🌧','이슬비'],61:['🌧','비'],63:['🌧','비'],65:['🌧','강한 비'],66:['🌧','어는 비'],67:['🌧','어는 비'],71:['❄️','눈'],73:['❄️','눈'],75:['❄️','눈'],77:['❄️','싸락눈'],80:['🌦','소나기'],81:['🌧','소나기'],82:['🌧','강한 소나기'],85:['❄️','눈 소나기'],86:['❄️','눈 소나기'],95:['⛈','뇌우'],96:['⛈','뇌우'],99:['⛈','뇌우']};
+function wxLabel(c){return WXKO[c]||['🌤','날씨']}
+function loadWx(){fetch('https://api.open-meteo.com/v1/forecast?latitude=35.1709&longitude=136.9092&current=temperature_2m,weather_code,precipitation_probability&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Asia%2FTokyo&forecast_days=4').then(r=>r.json()).then(j=>{const c=j.current,lab=wxLabel(c.weather_code);liveWx=true;$('wx').innerHTML=`<b>${lab[0]} ${Math.round(c.temperature_2m)}°</b>${lab[1]}`;const days=['일','월','화','수','목','금','토'];const rows=j.daily.time.map((t,i)=>{const d=new Date(t+'T12:00:00+09:00');const lab2=wxLabel(j.daily.weather_code[i]);const mm=d.getMonth()+1,dd=d.getDate(),wd=days[d.getDay()];return `${lab2[0]} ${mm}/${String(dd).padStart(2,'0')}(${wd}) ${Math.round(j.daily.temperature_2m_min[i])}–${Math.round(j.daily.temperature_2m_max[i])}℃ ${lab2[1]} ${j.daily.precipitation_probability_max[i]}%`});const box=$('info').querySelector('.sc');if(box&&box.querySelector('h3')&&box.querySelector('h3').textContent.includes('날씨')){box.innerHTML=`<h3>🌤 날씨 · 실시간</h3>${rows.map(w=>`<div class="cr"><span>${w}</span></div>`).join('')}<div class="ex">Open-Meteo · 나고야 사카에 · ${new Date().toLocaleString('ko-KR',{timeZone:'Asia/Tokyo'})} 기준</div>`}}).catch(()=>{})}
+const startDay=pickDay(),startStep=pickStep(startDay);
+setDay(startDay);go(startStep);
+loadWx();setInterval(loadWx,30*60*1000);
 </script></body></html>
